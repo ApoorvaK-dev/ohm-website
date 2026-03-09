@@ -11,7 +11,6 @@
       --surface: #0D1117;
       --border:  #21262D;
       --amber:   #F0A500;
-      --amber-d: #B87800;
       --text:    #E6EDF3;
       --muted:   #8B949E;
       --green:   #3FB950;
@@ -29,7 +28,6 @@
       flex-direction: column;
     }
 
-    /* ── Nav ── */
     nav {
       display: flex;
       align-items: center;
@@ -43,7 +41,6 @@
       color: var(--amber);
       text-decoration: none;
       font-weight: 700;
-      letter-spacing: -0.02em;
     }
     .nav-links { display: flex; gap: 1.5rem; }
     .nav-links a {
@@ -54,7 +51,6 @@
     }
     .nav-links a:hover { color: var(--text); }
 
-    /* ── Hero ── */
     .hero {
       flex: 1;
       display: flex;
@@ -92,13 +88,12 @@
       margin-bottom: 3rem;
     }
 
-    /* ── Install blocks ── */
     .install-group {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       width: 100%;
-      max-width: 560px;
+      max-width: 580px;
       margin-bottom: 1rem;
     }
 
@@ -131,7 +126,7 @@
       color: var(--muted);
       cursor: pointer;
       font-size: 0.75rem;
-      padding: 0.2rem 0.4rem;
+      padding: 0.2rem 0.5rem;
       border-radius: 4px;
       transition: all 0.15s;
       font-family: var(--mono);
@@ -146,8 +141,7 @@
       color: var(--amber);
       cursor: pointer;
       user-select: all;
-      white-space: nowrap;
-      overflow-x: auto;
+      word-break: break-all;
     }
 
     .platforms-note {
@@ -157,7 +151,6 @@
       margin-bottom: 2.5rem;
     }
 
-    /* ── Feature grid ── */
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -170,15 +163,11 @@
       width: 100%;
       margin-bottom: 4rem;
     }
-    .feature {
-      background: var(--surface);
-      padding: 1.5rem;
-    }
+    .feature { background: var(--surface); padding: 1.5rem; }
     .feature-icon { font-size: 1.4rem; margin-bottom: 0.75rem; }
     .feature h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
     .feature p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 
-    /* ── Soon badge ── */
     .soon {
       color: var(--muted);
       font-size: 0.82rem;
@@ -188,7 +177,6 @@
       font-family: var(--mono);
     }
 
-    /* ── Footer ── */
     footer {
       text-align: center;
       padding: 1.5rem;
@@ -201,7 +189,7 @@
 
     @media (max-width: 600px) {
       .nav-links { display: none; }
-      .install-cmd { font-size: 0.75rem; }
+      .install-cmd { font-size: 0.78rem; }
     }
   </style>
 </head>
@@ -211,7 +199,7 @@
     <a class="nav-logo" href="/">Ω ohm</a>
     <div class="nav-links">
       <a href="https://github.com/ApoorvaK-dev/ohm" target="_blank">GitHub</a>
-      <a href="https://github.com/ApoorvaK-dev/ohm/blob/main/docs/PRODUCT_BRIEF.md" target="_blank">Docs</a>
+      <a href="https://github.com/ApoorvaK-dev/ohm/blob/main/docs/PRD.md" target="_blank">Docs</a>
       <a href="https://github.com/ApoorvaK-dev/ohm/releases" target="_blank">Releases</a>
     </div>
   </nav>
@@ -226,7 +214,6 @@
       Browser automation. Native apps. Memory that never forgets.
     </p>
 
-    <!-- Install cards -->
     <div class="install-group">
 
       <div class="install-card">
@@ -239,7 +226,7 @@
 
       <div class="install-card">
         <div class="install-card-header">
-          <span class="platform-badge">Windows (PowerShell)</span>
+          <span class="platform-badge">Windows · PowerShell</span>
           <button class="copy-btn" onclick="copyCmd(this, 'cmd-ps')">copy</button>
         </div>
         <div class="install-cmd" id="cmd-ps">irm https://apoorvak-dev.github.io/ohm-website/install.ps1 | iex</div>
@@ -247,7 +234,7 @@
 
       <div class="install-card">
         <div class="install-card-header">
-          <span class="platform-badge">Windows (CMD fallback)</span>
+          <span class="platform-badge">Windows · CMD fallback</span>
           <button class="copy-btn" onclick="copyCmd(this, 'cmd-win')">copy</button>
         </div>
         <div class="install-cmd" id="cmd-win">curl -fsSL https://apoorvak-dev.github.io/ohm-website/install.cmd -o %TEMP%\ohm-install.cmd && %TEMP%\ohm-install.cmd</div>
@@ -259,37 +246,36 @@
       After install → open the Ohm app → enter 6-digit pairing code
     </p>
 
-    <!-- Feature grid -->
     <div class="features">
       <div class="feature">
         <div class="feature-icon">⚡</div>
         <h3>Every AI Provider</h3>
-        <p>Claude, GPT-4o, Gemini, Groq, Qwen, OpenRouter, Kilo. Swap anytime. Smart routing + cost fallback.</p>
+        <p>Claude, GPT-4o, Gemini, Groq, Qwen, OpenRouter, Kilo. Swap anytime.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">🧠</div>
         <h3>Memory System</h3>
-        <p>9-file per-user memory. Soul, identity, history, learnings, goals. Agent always knows who you are.</p>
+        <p>9-file per-user memory. Soul, identity, history, goals. Always knows you.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">🌐</div>
         <h3>Browser Relay</h3>
-        <p>Chrome + Firefox extension. Page context relay, form autofill, annotation, flow recording + replay.</p>
+        <p>Chrome + Firefox extension. Page relay, form fill, flow recording.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">📱</div>
         <h3>Native Apps</h3>
-        <p>iOS, Android, macOS, Windows, Linux. One daemon. Every surface. Offline queue. Push notifications.</p>
+        <p>iOS, Android, macOS, Windows, Linux. One daemon. Every surface.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">🔒</div>
         <h3>Local-First</h3>
-        <p>API keys in OS keychain. Data stays on device. No cloud dependency. Pair devices with 6-digit code.</p>
+        <p>Keys in OS keychain. Data on device. Pair with 6-digit code.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">🧩</div>
         <h3>Skills + Plugins</h3>
-        <p>Composable .skill files. Built-in: file ops, git, web research, code review, data analysis.</p>
+        <p>Composable .skill files. Git, web, file ops, code review, data analysis.</p>
       </div>
     </div>
 
@@ -297,26 +283,19 @@
   </main>
 
   <footer>
-    <p>
-      <a href="https://github.com/ApoorvaK-dev/ohm" target="_blank">GitHub</a> ·
-      <a href="https://github.com/ApoorvaK-dev/ohm/releases" target="_blank">Releases</a> ·
-      <a href="https://github.com/ApoorvaK-dev/ohm/blob/main/TASKS.md" target="_blank">Roadmap</a>
-    </p>
+    <a href="https://github.com/ApoorvaK-dev/ohm" target="_blank">GitHub</a> ·
+    <a href="https://github.com/ApoorvaK-dev/ohm/releases" target="_blank">Releases</a> ·
+    <a href="https://github.com/ApoorvaK-dev/ohm/blob/main/TASKS.md" target="_blank">Roadmap</a>
   </footer>
 
   <script>
-    // ── Copy to clipboard ──────────────────────────────────────────
     function copyCmd(btn, id) {
       const text = document.getElementById(id).textContent.trim();
       navigator.clipboard.writeText(text).then(() => {
         btn.textContent = 'copied!';
         btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = 'copy';
-          btn.classList.remove('copied');
-        }, 2000);
+        setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
       }).catch(() => {
-        // Fallback for older browsers
         const el = document.getElementById(id);
         const range = document.createRange();
         range.selectNode(el);
@@ -326,25 +305,6 @@
         window.getSelection().removeAllRanges();
       });
     }
-
-    // ── User-Agent redirect (server-side preferred, JS fallback) ──
-    // For proper UA-based redirect, configure this in _redirects or
-    // a Cloudflare Worker. This JS version is a lightweight fallback.
-    (function() {
-      const ua = navigator.userAgent.toLowerCase();
-      const isWindows = ua.includes('windows');
-      const isMac = ua.includes('macintosh') || ua.includes('mac os x');
-      const isAndroid = ua.includes('android');
-      const isLinux = ua.includes('linux') && !isAndroid;
-
-      // Auto-scroll the relevant install card into better view on mobile
-      if (window.innerWidth <= 600) {
-        let targetId = 'cmd-unix';
-        if (isWindows) targetId = 'cmd-ps';
-        const el = document.getElementById(targetId);
-        if (el) el.closest('.install-card').style.border = '1px solid rgba(240,165,0,0.4)';
-      }
-    })();
   </script>
 
 </body>
