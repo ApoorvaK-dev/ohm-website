@@ -113,25 +113,35 @@ check_deps() {
 
 # ── Download daemon binary ────────────────────────────────────────
 download_daemon() {
-  REPO="https://github.com/ApoorvaK-dev/ohm"
-  RELEASES_URL="${REPO}/releases/latest/download"
+  # Binaries are hosted publicly on ohm-website (not the private ohm repo)
+  BASE_URL="https://apoorvak-dev.github.io/ohm-website/releases"
   BINARY_NAME="ohm-daemon-${PLATFORM}"
-  DOWNLOAD_URL="${RELEASES_URL}/${BINARY_NAME}"
+  DOWNLOAD_URL="${BASE_URL}/${BINARY_NAME}"
   TMP_FILE="${TMPDIR:-/tmp}/ohm-daemon-download-$$"
 
   log "Downloading ohm-daemon (${PLATFORM})..."
   log "URL: ${DOWNLOAD_URL}"
 
-  if ! curl -fsSL --progress-bar "$DOWNLOAD_URL" -o "$TMP_FILE" 2>/dev/null; then
-    # Try without --progress-bar for older curl
-    curl -fsSL "$DOWNLOAD_URL" -o "$TMP_FILE" || \
-      die "Download failed. Check your internet connection or visit ${REPO}/releases"
+  # Check if release exists before downloading
+  HTTP_CODE=$(curl -o /dev/null -sI -w "%{http_code}" "$DOWNLOAD_URL" 2>/dev/null || echo "000")
+  if [ "$HTTP_CODE" = "404" ] || [ "$HTTP_CODE" = "000" ]; then
+    printf "\n"
+    printf "  ${AMBER}Ohm daemon binaries are not released yet.${RESET}\n"
+    printf "  The daemon is currently in development (Sprint 1).\n"
+    printf "  Star the repo to get notified when binaries are available:\n"
+    printf "  https://github.com/ApoorvaK-dev/ohm\n\n"
+    printf "  If you already have a binary, place it at:\n"
+    printf "  ${INSTALL_DIR}/ohm-daemon\n\n"
+    exit 0
   fi
+
+  curl -fsSL "$DOWNLOAD_URL" -o "$TMP_FILE" || \
+    die "Download failed (HTTP ${HTTP_CODE}). Try again or visit https://github.com/ApoorvaK-dev/ohm"
 
   # Verify download is not empty
   if [ ! -s "$TMP_FILE" ]; then
     rm -f "$TMP_FILE"
-    die "Downloaded file is empty. The release binary may not exist yet for ${PLATFORM}."
+    die "Downloaded file is empty for ${PLATFORM}."
   fi
 
   # Install

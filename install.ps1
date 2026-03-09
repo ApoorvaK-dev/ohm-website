@@ -54,22 +54,38 @@ New-Item -ItemType Directory -Force -Path $LogDir     | Out-Null
 New-Item -ItemType Directory -Force -Path "$DataDir\users" | Out-Null
 
 # ── Download binary ───────────────────────────────────────────────
-$Repo        = "https://github.com/ApoorvaK-dev/ohm"
-$DownloadUrl = "$Repo/releases/latest/download/ohm-daemon-$Platform.exe"
+# Binaries hosted publicly on ohm-website (private ohm repo releases are inaccessible)
+$BaseUrl     = "https://apoorvak-dev.github.io/ohm-website/releases"
+$DownloadUrl = "$BaseUrl/ohm-daemon-$Platform.exe"
 
 Write-Log "Downloading ohm-daemon ($Platform)..."
 Write-Log "URL: $DownloadUrl"
 
+# Check availability first
+try {
+  $HeadResp = Invoke-WebRequest -Uri $DownloadUrl -Method Head -UseBasicParsing -ErrorAction Stop
+} catch {
+  $StatusCode = $_.Exception.Response.StatusCode.value__
+  if ($StatusCode -eq 404 -or $null -eq $StatusCode) {
+    Write-Host ""
+    Write-Host "  Ohm daemon binaries are not released yet." -ForegroundColor Yellow
+    Write-Host "  The daemon is currently in development (Sprint 1)."
+    Write-Host "  Visit https://github.com/ApoorvaK-dev/ohm to follow progress."
+    Write-Host ""
+    exit 0
+  }
+}
+
 try {
   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-  $ProgressPreference = 'SilentlyContinue'  # speeds up Invoke-WebRequest significantly
+  $ProgressPreference = 'SilentlyContinue'
   Invoke-WebRequest -Uri $DownloadUrl -OutFile $DaemonExe -UseBasicParsing
 } catch {
-  Write-Fail "Download failed: $_`nVisit $Repo/releases to download manually."
+  Write-Fail "Download failed: $_"
 }
 
 if (-not (Test-Path $DaemonExe) -or (Get-Item $DaemonExe).Length -eq 0) {
-  Write-Fail "Downloaded file is empty or missing. The release binary may not exist yet."
+  Write-Fail "Downloaded file is empty or missing."
 }
 
 Write-Ok "ohm-daemon.exe → $DaemonExe"
